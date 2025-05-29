@@ -70,7 +70,7 @@ A comprehensive enterprise-grade AI platform with advanced MLOps capabilities, s
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/TaosLezz/AI_Platform.git
 cd ai-showcase-platform
 
 # Copy environment template
@@ -351,7 +351,7 @@ docker-compose up -d --build
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Apache License - see the LICENSE file for details.
 
 ## 🆘 Support
 
