@@ -14,7 +14,7 @@ export function useImageGeneration() {
         isProcessing: true, 
         message: "Generating image...",
         currentStep: 1,
-        totalSteps: 50,
+        totalSteps: 4,
         estimatedTime: 30000
       });
       return generateImage(prompt, parameters);

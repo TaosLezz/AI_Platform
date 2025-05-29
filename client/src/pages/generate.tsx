@@ -17,7 +17,7 @@ export default function GeneratePage() {
     style: 'photorealistic',
     resolution: '1024x1024',
     guidanceScale: 7.5,
-    steps: 50
+    steps: 4
   });
 
   const generateMutation = useImageGeneration();
@@ -151,9 +151,9 @@ export default function GeneratePage() {
                     <Slider
                       value={[parameters.steps]}
                       onValueChange={([value]) => setParameters({...parameters, steps: value})}
-                      min={10}
-                      max={100}
-                      step={10}
+                      min={1}
+                      max={4}
+                      step={1}
                       className="w-full"
                     />
                   </div>

@@ -30,6 +30,7 @@ from database import engine, get_db
 from routes.auth import router as auth_router
 from routes.users import router as users_router
 
+import traceback
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
@@ -125,6 +126,7 @@ async def generate_image(request: ImageGenerationRequest):
             request.prompt, 
             request.parameters.dict() if request.parameters else {}
         )
+        print("resultzz", result)
         
         # Update job with result
         await storage.update_ai_job(job["id"], {
@@ -149,7 +151,7 @@ async def generate_image(request: ImageGenerationRequest):
 @app.post("/api/v1/classify", response_model=ClassificationResponse)
 async def classify_image(
     image: UploadFile = File(...),
-    use_hugging_face: bool = Form(False)
+    use_hugging_face: bool = Form(False, alias="useHuggingFace")
 ):
     """Classify images and identify objects with confidence scores"""
     try:
@@ -171,7 +173,7 @@ async def classify_image(
 
         # Process the request
         result = await ai_service.classify_image(base64_image, use_hugging_face)
-        
+        print("result_classify", result)
         # Update job with result
         await storage.update_ai_job(job["id"], {
             "status": "completed" if result["success"] else "failed",
@@ -179,19 +181,22 @@ async def classify_image(
         })
 
         if result["success"]:
+            print("yesss")
             data = result["data"]
-            return ClassificationResponse(
-                job_id=job["id"],
-                class_name=data["class"],
-                confidence=data["confidence"],
-                description=data["description"],
-                alternatives=data.get("alternatives", []),
-                processing_time=result["processing_time"]
-            )
+            return ClassificationResponse.model_validate({
+                "job_id":job["id"],
+                "class":data["class"],
+                "confidence":data["confidence"],
+                "description":data["description"],
+                "alternatives":data.get("alternatives", []),
+                "processing_time":result["processing_time"]
+            })
         else:
             raise HTTPException(status_code=500, detail=result["error"])
             
     except Exception as e:
+        print("Exception occurred:", e)
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 # Object Detection Endpoints

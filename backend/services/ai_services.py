@@ -6,6 +6,7 @@ import os
 from openai import AsyncOpenAI
 from together import Together
 from dotenv import load_dotenv
+import traceback
 load_dotenv()
 
 class AIServiceManager:
@@ -33,13 +34,13 @@ class AIServiceManager:
         
         try:
             response = await self.together_client.images.generate(
-                model="dall-e-3",
+                model="black-forest-labs/FLUX.1-schnell-Free",
                 prompt=prompt,
                 n=1,
                 size=parameters.get("resolution", "1024x1024"),
                 quality=parameters.get("quality", "standard")
             )
-            
+            print("response", response)
             processing_time = (time.time() - start_time) * 1000
             
             return {
@@ -52,6 +53,8 @@ class AIServiceManager:
             }
             
         except Exception as e:
+            print("error", e)
+            traceback.print_exc()
             processing_time = (time.time() - start_time) * 1000
             return {
                 "success": False,

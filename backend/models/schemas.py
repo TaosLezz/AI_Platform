@@ -7,7 +7,7 @@ class GenerationParameters(BaseModel):
     style: str = "photorealistic"
     resolution: str = "1024x1024"
     guidance_scale: float = 7.5
-    steps: int = 50
+    steps: int = 4
 
 class ImageGenerationRequest(BaseModel):
     prompt: str = Field(..., description="Text prompt for image generation")
