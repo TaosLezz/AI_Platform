@@ -1,0 +1,303 @@
+# 🚀 AI Showcase Platform - Replit Development Prompt
+
+## 📋 **Project Overview**
+Tạo một AI showcase platform hoàn chỉnh với multiple AI services, modern web interface, và production-ready architecture sử dụng Replit environment.
+
+## 🎯 **Core Requirements**
+
+### **Frontend - Next.js 15** 
+- Framework: Next.js 15 với App Router 
+- UI Library: Tailwind CSS + Shadcn/ui components
+- State Management: Zustand hoặc React Context
+- Styling: Modern glassmorphism design với dark theme
+- Responsive: Mobile-first approach
+- Animation: Framer Motion cho smooth transitions
+
+
+### **Backend - FastAPI**
+- Framework: FastAPI với async/await
+- API Documentation: Automatic OpenAPI/Swagger
+- Authentication: JWT-based auth (optional)
+- File Upload: Multipart form handling
+- CORS: Configured for frontend integration
+- Error Handling: Comprehensive exception handling
+
+
+### **AI Services Integration**
+
+#### **1. Image Generation Service**
+- Model: Stable Diffusion hoặc OpenAI DALL-E API
+- Features: Text-to-image, style transfer, image editing
+- Parameters: Resolution, style, steps, guidance scale
+
+#### **2. Image Classification**
+- Model: ResNet, EfficientNet, hoặc Vision Transformer
+- Features: Multi-class classification, confidence scores
+- Support: Popular datasets (ImageNet, CIFAR, custom)
+
+#### **3. Object Detection**
+- Model: YOLO v8, DETR, hoặc R-CNN
+- Features: Bounding boxes, class labels, confidence
+- Real-time: Webcam integration option
+
+#### **4. Image Segmentation**
+- Model: SAM, U-Net, hoặc DeepLab
+- Features: Semantic/Instance segmentation
+- Interactive: Click-to-segment functionality
+
+#### **5. Chatbot Service**
+- Model: OpenAI GPT, Llama, hoặc custom fine-tuned
+- Features: Context-aware conversations, memory
+- Integration: RAG với vector database (optional)
+
+### **MLOps Stack**
+
+#### **MLflow Integration**
+python
+# Requirements
+- Experiment tracking cho tất cả models
+- Model registry với versioning
+- Metrics logging (accuracy, latency, throughput)
+- Artifact storage cho model files
+- Model deployment pipeline
+
+
+#### **TorchServe Deployment**
+python
+# Model Serving
+- Multi-model serving architecture  
+- Custom handlers cho từng AI service
+- Auto-scaling configuration
+- Health checks và monitoring
+- Batch inference support
+
+
+### **Docker Configuration**
+dockerfile
+# Multi-stage build setup
+- Base image: Python 3.11-slim
+- Separate containers: Frontend, Backend, MLflow, TorchServe
+- Docker Compose: Orchestration cho development
+- Volume mounts: Model storage và logs
+- Environment variables: Configuration management
+
+
+## 🏗️ **Project Structure**
+ai-showcase/
+├── frontend/                 # Next.js application
+│   ├── app/
+│   │   ├── (dashboard)/
+│   │   │   ├── generate/     # Image generation
+│   │   │   ├── classify/     # Classification
+│   │   │   ├── detect/       # Object detection  
+│   │   │   ├── segment/      # Segmentation
+│   │   │   └── chat/         # Chatbot
+│   │   ├── api/              # API routes
+│   │   └── components/       # Reusable components
+│   ├── lib/                  # Utilities & configs
+│   └── public/               # Static assets
+├── backend/                  # FastAPI application
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── v1/
+│   │   │   │   ├── generate.py
+│   │   │   │   ├── classify.py
+│   │   │   │   ├── detect.py
+│   │   │   │   ├── segment.py
+│   │   │   │   └── chat.py
+│   │   ├── core/             # Configuration
+│   │   ├── models/           # Pydantic models
+│   │   ├── services/         # Business logic
+│   │   └── utils/            # Helper functions
+│   └── requirements.txt
+├── models/                   # AI models & handlers
+│   ├── torchserve/
+│   │   ├── handlers/
+│   │   ├── config/
+│   │   └── model_store/
+│   └── mlflow/
+│       ├── experiments/
+│       └── models/
+├── docker/
+│   ├── Dockerfile.frontend
+│   ├── Dockerfile.backend
+│   ├── Dockerfile.torchserve
+│   └── docker-compose.yml
+└── README.md
+
+
+## 💻 **Implementation Steps**
+
+### **Step 1: Environment Setup**
+bash
+# Replit configuration
+- Python 3.11+ environment
+- Node.js 18+ for Next.js
+- Poetry hoặc pip cho dependency management
+- Environment variables setup
+
+
+### **Step 2: Backend Development**
+python
+# FastAPI application với endpoints:
+@app.post("/api/v1/generate")     # Image generation
+@app.post("/api/v1/classify")     # Image classification  
+@app.post("/api/v1/detect")       # Object detection
+@app.post("/api/v1/segment")      # Image segmentation
+@app.post("/api/v1/chat")         # Chatbot conversation
+
+# MLflow integration
+- Initialize tracking server
+- Log experiments automatically
+- Model registration pipeline
+
+
+### **Step 3: AI Models Integration**
+python
+# TorchServe handlers cho mỗi service
+class ImageGenerationHandler:
+    def preprocess(self, data):
+        # Text prompt processing
+    
+    def inference(self, data):
+        # Model inference
+        
+    def postprocess(self, data):
+        # Image output formatting
+
+# Tương tự cho các services khác
+
+
+### **Step 4: Frontend Development**
+tsx
+// Next.js components với modern UI
+interface AIService {
+  id: string;
+  name: string;
+  description: string;
+  endpoint: string;
+  inputType: 'text' | 'image' | 'both';
+  outputType: 'image' | 'json' | 'text';
+}
+
+// Dashboard với service cards
+// Upload components với drag-and-drop
+// Results display với loading states
+// Real-time processing indicators
+
+
+### **Step 5: Docker Configuration**
+dockerfile
+# Multi-service setup
+- Frontend container (Next.js)
+- Backend container (FastAPI)
+- TorchServe container
+- MLflow tracking server
+- Database (PostgreSQL/SQLite)
+
+
+## 🎨 **UI/UX Features**
+
+### **Dashboard Layout**
+- Modern sidebar navigation
+- Service cards với preview
+- Progress indicators
+- Result galleries
+- Performance metrics
+
+### **Interactive Elements**
+- Drag-and-drop file upload
+- Real-time processing status
+- Parameter sliders/controls
+- Before/after comparisons
+- Download results functionality
+
+### **Responsive Design**
+- Mobile-optimized interface
+- Touch-friendly controls
+- Adaptive layouts
+- Progressive loading
+
+## 📊 **Monitoring & Analytics**
+
+### **MLflow Tracking**
+python
+# Metrics tracking cho mỗi request
+- Processing latency
+- Model accuracy/confidence
+- Resource utilization
+- Error rates
+- User engagement
+
+
+### **Performance Monitoring**
+- Request/response times
+- Model inference speed
+- Memory usage
+- GPU utilization (if available)
+- API endpoint analytics
+
+## 🔧 **Advanced Features**
+
+### **Batch Processing**
+- Multiple file upload
+- Queue management
+- Progress tracking
+- Result aggregation
+
+### **Model Management**
+- A/B testing framework
+- Model versioning
+- Rollback capabilities
+- Performance comparison
+
+### **User Experience**
+- Processing history
+- Favorite results
+- Share functionality
+- Export options
+
+## 🚀 **Deployment Instructions**
+
+### **Replit Deployment**
+bash
+# 1. Create new Replit project
+# 2. Upload project structure
+# 3. Configure environment variables
+# 4. Set up port forwarding
+# 5. Initialize services
+
+# Run commands:
+pip install -r backend/requirements.txt
+npm install --prefix frontend
+python -m uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
+npm run dev --prefix frontend
+
+
+### **Production Considerations**
+- Load balancing cho multiple models
+- Caching strategies
+- Rate limiting
+- Security headers
+- SSL certificates
+
+## 📝 **Example Implementation**
+
+Hãy tạo một prototype đầy đủ với:
+- 5 AI services hoạt động
+- Modern Next.js frontend
+- FastAPI backend với MLflow
+- Docker containerization
+- Comprehensive documentation
+- Demo data và examples
+
+## 🎯 **Success Criteria**
+- ✅ All AI services functional
+- ✅ Modern, responsive UI
+- ✅ MLflow experiment tracking
+- ✅ TorchServe model serving
+- ✅ Docker deployment ready
+- ✅ Production-quality code
+- ✅ Comprehensive documentation
+
+---
