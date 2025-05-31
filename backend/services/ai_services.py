@@ -31,12 +31,13 @@ class AIServiceManager:
     async def generate_image(self, prompt: str, parameters: Dict[str, Any] = {}) -> Dict[str, Any]:
         """Generate images using OpenAI DALL-E"""
         start_time = time.time()
-        
+        print("parameters", parameters)
         try:
-            response = await self.together_client.images.generate(
+            response = self.together_client.images.generate(
                 model="black-forest-labs/FLUX.1-schnell-Free",
                 prompt=prompt,
                 n=1,
+                steps=parameters.get("steps", 4),
                 size=parameters.get("resolution", "1024x1024"),
                 quality=parameters.get("quality", "standard")
             )
@@ -46,8 +47,8 @@ class AIServiceManager:
             return {
                 "success": True,
                 "data": {
-                    "url": response.data[0].url,
-                    "prompt": response.data[0].revised_prompt or prompt
+                    "url": response.data,
+                    "prompt": prompt
                 },
                 "processing_time": processing_time
             }

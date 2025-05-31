@@ -120,7 +120,8 @@ async def generate_image(request: ImageGenerationRequest):
             "parameters": request.parameters.dict() if request.parameters else {},
             "status": "processing"
         })
-
+        print("request", request.prompt)
+        print("request1", request.parameters)
         # Process the request
         result = await ai_service.generate_image(
             request.prompt, 
