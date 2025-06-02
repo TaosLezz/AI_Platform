@@ -18,3 +18,4 @@ pymysql
 Authlib
 redis
 psutil
+together
