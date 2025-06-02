@@ -1,0 +1,70 @@
+dd MLOps tracking and monitoring to the authenticated AI platform:
+
+BACKEND REQUIREMENTS:
+1. Install dependencies: mlflow, redis, celery, psutil
+
+2. MLflow Integration:
+   - MLflow tracking server setup (SQLite backend)
+   - Log all AI requests with user context
+   - Track metrics: latency, memory usage, success rate
+   - Store input/output artifacts
+   - Link runs to user accounts
+
+3. Performance Monitoring:
+   - Real-time performance tracking decorator
+   - Memory and CPU usage monitoring
+   - Request/response time measurement
+   - Error rate tracking
+   - System health metrics
+
+4. Caching System:
+   - Redis integration for result caching
+   - Cache key generation based on service + input
+   - TTL management
+   - Cache hit/miss statistics
+
+5. New API Endpoints:
+   - GET /api/v1/experiments (user's MLflow experiments)
+   - GET /api/v1/runs/{run_id} (specific run details)
+   - GET /api/v1/metrics/dashboard (aggregated metrics)
+   - GET /api/v1/performance/stats (system performance)
+   - GET /api/v1/cache/stats (cache statistics)
+
+6. Enhanced AI Service Endpoints:
+   - Add MLflow logging to all existing AI services
+   - Performance monitoring integration
+   - Cache checking before processing
+   - User usage increment after successful requests
+
+FRONTEND REQUIREMENTS:
+1. MLflow Dashboard:
+   - Experiments list with filtering
+   - Run details with metrics visualization
+   - Performance charts (line/bar charts using Recharts)
+   - Real-time metrics updates
+
+2. Analytics Page:
+   - User's personal usage analytics
+   - Performance trends over time
+   - Service usage breakdown
+   - Success/failure rates
+
+3. Enhanced AI Service Pages:
+   - Processing time display
+   - Cache hit indicators
+   - Request history with MLflow links
+   - Performance feedback
+
+4. System Status Page:
+   - Real-time system health
+   - Cache status
+   - Service availability
+   - Performance metrics
+
+INTEGRATION POINTS:
+- All AI requests must log to MLflow with user ID
+- Performance metrics tracked per user role
+- Cache usage statistics in user dashboard
+- MLflow runs accessible only to request owner (+ admins)
+
+Update existing AI service functions to include monitoring, caching, and MLflow integration while maintaining current functionality.

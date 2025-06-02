@@ -1,0 +1,60 @@
+Add complete authentication and database system to our FastAPI + React AI platform:
+
+BACKEND REQUIREMENTS:
+1. Install dependencies: sqlalchemy, alembic, pymysql, python-jose[cryptography], passlib[bcrypt], authlib, slowapi
+
+2. MySQL Database Setup:
+   - Create SQLAlchemy models for: Users, AIRequests, ChatSessions, ChatMessages, UsageLimits
+   - User roles: FREE, PREMIUM, DEVELOPER, ADMIN with different permissions
+   - OAuth fields for Google/GitHub integration
+   - Database connection with environment variables
+
+3. Authentication System:
+   - JWT token creation/verification
+   - Password hashing with bcrypt
+   - OAuth integration (Google + GitHub)
+   - Role-based permission decorators
+   - Session management
+
+4. API Endpoints:
+   - POST /api/v1/auth/register (email/password registration)
+   - POST /api/v1/auth/login (login with JWT response)
+   - GET /api/v1/auth/me (current user info)
+   - GET /api/v1/auth/google (Google OAuth)
+   - GET /api/v1/auth/github (GitHub OAuth)
+   - PUT /api/v1/auth/profile (update profile)
+   - GET /api/v1/users/usage (usage statistics)
+
+5. Rate Limiting:
+   - Different limits per user role
+   - Usage tracking per service type
+   - Daily/monthly limits enforcement
+
+FRONTEND REQUIREMENTS:
+1. Authentication Pages:
+   - Modern login/register forms with validation
+   - OAuth buttons (Google, GitHub)
+   - Password reset functionality
+   - Success/error message handling
+
+2. User Dashboard:
+   - Profile management
+   - Usage statistics display
+   - Role and permissions overview
+   - Settings panel
+
+3. Protected Routes:
+   - JWT token storage and validation
+   - Automatic login/logout
+   - Role-based component rendering
+   - Unauthorized access handling
+
+4. Navigation Updates:
+   - User menu with profile/logout
+   - Role-based menu items
+   - Login status indicators
+
+ENVIRONMENT VARIABLES NEEDED:
+- DATABASE_URL, JWT_SECRET_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+
+Include complete database models, API implementations, and React components with proper error handling and validation.
