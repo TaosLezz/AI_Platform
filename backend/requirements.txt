@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-multipart==0.0.6
@@ -18,3 +19,26 @@ pymysql
 Authlib
 redis
 psutil
+=======
+fastapi
+uvicorn[standard]
+python-multipart
+openai
+pillow
+pydantic
+python-jose[cryptography]
+passlib[bcrypt]
+aiofiles
+requests
+numpy
+mlflow
+boto3
+psycopg2-binary
+sqlalchemy
+alembic
+pymysql
+Authlib
+redis
+psutil
+together
+>>>>>>> feature/segment

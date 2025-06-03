@@ -12,6 +12,48 @@ import { useAIStore } from '@/store/ai-store';
 import { SegmentationResult } from '@/lib/types';
 
 export default function SegmentPage() {
+<<<<<<< HEAD
+=======
+  const originalImageRef = useRef<HTMLImageElement | null>(null);
+const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+
+const handleImageLoad = () => {
+  if (originalImageRef.current) {
+    setImageSize({
+      width: originalImageRef.current.offsetWidth,
+      height: originalImageRef.current.offsetHeight,
+    });
+  }
+};
+const getOverlayColorHex = (index: number): string => {
+  const colors = ['#f87171', '#60a5fa', '#34d399', '#facc15', '#c084fc', '#f472b6', '#22d3ee', '#fb923c'];
+  return colors[index % colors.length];
+};
+
+const colorizeMask = (base64Mask: string, color: string): Promise<string> => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${base64Mask}`;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return resolve(img.src); // fallback
+
+      ctx.drawImage(img, 0, 0);
+      ctx.globalCompositeOperation = 'source-in';
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const result = canvas.toDataURL('image/png');
+      resolve(result);
+    };
+  });
+};
+
+>>>>>>> feature/segment
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [useHuggingFace, setUseHuggingFace] = useState(false);
   const [result, setResult] = useState<SegmentationResult | null>(null);
@@ -180,6 +222,7 @@ export default function SegmentPage() {
                     </TabsContent>
                     
                     <TabsContent value="segmented" className="mt-4">
+<<<<<<< HEAD
                       <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden relative">
                         <img 
                           src={preview} 
@@ -202,12 +245,54 @@ export default function SegmentPage() {
                                 {segment.name}
                               </Badge>
                             </div>
+=======
+                      <div className="relative w-full bg-gray-700 rounded-lg overflow-hidden">
+                        {/* Ảnh gốc */}
+                        <img
+                          src={preview}
+                          alt="Segmented"
+                          ref={originalImageRef}
+                          onLoad={handleImageLoad}
+                          className="w-full h-auto block"
+                        />
+
+                        {/* Các lớp mask */}
+                        {result?.segments?.map((segment, index) => (
+                          <img
+                            key={index}
+                            src={`data:image/png;base64,${segment.mask}`}
+                            alt={`Mask ${index}`}
+                            className="absolute top-0 left-0 pointer-events-auto transition-opacity duration-200 cursor-pointer"
+                            style={{
+                              width: imageSize.width,
+                              height: imageSize.height,
+                              opacity: selectedSegment === index ? 0.7 : 0.3,
+                              zIndex: 10 + index,
+                              mixBlendMode: "multiply",
+                              border: selectedSegment === index ? "2px solid white" : "2px solid transparent",
+                            }}
+                            onClick={() => setSelectedSegment(selectedSegment === index ? null : index)}
+                          />
+                        ))}
+
+                        {/* Nhãn tên vùng */}
+                        {result?.segments?.map((segment, index) => (
+                          <div
+                            key={`label-${index}`}
+                            className="absolute top-2 left-2 bg-gray-900/80 text-white text-xs px-2 py-1 rounded z-50"
+                            style={{
+                              display: selectedSegment === index || selectedSegment === null ? 'block' : 'none'
+                            }}
+                          >
+                            {segment.name}
+>>>>>>> feature/segment
                           </div>
                         ))}
                       </div>
                     </TabsContent>
                     
                     <TabsContent value="overlay" className="mt-4">
+<<<<<<< HEAD
                       <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden relative">
                         <img 
                           src={preview} 
@@ -227,10 +312,56 @@ export default function SegmentPage() {
                                 {segment.name} ({Math.round(segment.confidence * 100)}%)
                               </Badge>
                             </div>
+=======
+                      <div className="relative bg-gray-700 rounded-lg overflow-hidden">
+                        {/* Ảnh gốc mờ nền */}
+                        <img 
+                          src={preview} 
+                          alt="Overlay" 
+                          ref={originalImageRef}
+                          onLoad={handleImageLoad}
+                          className="w-full h-auto block opacity-80"
+                        />
+
+                        {/* Các lớp mask bán trong suốt */}
+                        {result?.segments?.map((segment, index) => (
+                          <img
+                            key={index}
+                            src={`data:image/png;base64,${segment.mask}`}
+                            alt={`Overlay Mask ${index}`}
+                            className="absolute top-0 left-0 transition-opacity duration-200 cursor-pointer"
+                            style={{
+                              width: imageSize.width,
+                              height: imageSize.height,
+                              opacity: selectedSegment === index ? 0.7 : 0.3,
+                              zIndex: 10 + index,
+                              mixBlendMode: "screen", // hoặc "multiply" tùy hiệu ứng mong muốn
+                              border: selectedSegment === index ? '2px solid white' : 'none',
+
+                            }}
+                            onClick={() => setSelectedSegment(selectedSegment === index ? null : index)}
+                          />
+                        ))}
+
+                        {/* Nhãn tên vùng mask */}
+                        {result?.segments?.map((segment, index) => (
+                          <div
+                            key={`overlay-label-${index}`}
+                            className="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded z-50"
+                            style={{
+                              display: selectedSegment === index || selectedSegment === null ? 'block' : 'none'
+                            }}
+                          >
+                            {segment.name} ({Math.round(segment.confidence * 100)}%)
+>>>>>>> feature/segment
                           </div>
                         ))}
                       </div>
                     </TabsContent>
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/segment
                   </Tabs>
 
                   {result && result.segments && result.segments.length > 0 && (

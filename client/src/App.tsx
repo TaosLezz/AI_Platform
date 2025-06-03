@@ -13,11 +13,19 @@ import SegmentPage from "@/pages/segment";
 import ChatPage from "@/pages/chat";
 import AnalyticsPage from "@/pages/analytics";
 import LoginPage from "@/pages/login"
+<<<<<<< HEAD
+=======
+import Register from "./pages/register";
+>>>>>>> feature/segment
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
+<<<<<<< HEAD
+=======
+      <Route path="/dashboard" component={Dashboard} />
+>>>>>>> feature/segment
       <Route path="/generate" component={GeneratePage} />
       <Route path="/classify" component={ClassifyPage} />
       <Route path="/detect" component={DetectPage} />
@@ -25,6 +33,10 @@ function Router() {
       <Route path="/chat" component={ChatPage} />
       <Route path="/analytics" component={AnalyticsPage} />
       <Route path="/login" component={LoginPage} />
+<<<<<<< HEAD
+=======
+      <Route path="/register" component={Register}/>
+>>>>>>> feature/segment
       <Route component={NotFound} />
     </Switch>
   );
