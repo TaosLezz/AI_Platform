@@ -5,11 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-<<<<<<< HEAD
-*.zip
-=======
 
->>>>>>> feature/segment
 node_modules
 
 # Distribution / packaging

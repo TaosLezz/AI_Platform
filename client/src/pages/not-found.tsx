@@ -3,19 +3,6 @@ import { AlertCircle } from "lucide-react";
 
 export default function NotFound() {
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-=======
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-tr from-blue-50 to-white">
       <Card className="w-full max-w-md mx-4 shadow-lg border border-blue-200 rounded-lg">
         <CardContent className="pt-8 pb-10 px-8 text-center">
@@ -34,7 +21,6 @@ export default function NotFound() {
           >
             Go Back Home
           </a>
->>>>>>> feature/segment
         </CardContent>
       </Card>
     </div>

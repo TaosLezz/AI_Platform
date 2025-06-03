@@ -12,8 +12,6 @@ import { useAIStore } from '@/store/ai-store';
 import { SegmentationResult } from '@/lib/types';
 
 export default function SegmentPage() {
-<<<<<<< HEAD
-=======
   const originalImageRef = useRef<HTMLImageElement | null>(null);
 const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
@@ -53,7 +51,6 @@ const colorizeMask = (base64Mask: string, color: string): Promise<string> => {
   });
 };
 
->>>>>>> feature/segment
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [useHuggingFace, setUseHuggingFace] = useState(false);
   const [result, setResult] = useState<SegmentationResult | null>(null);
@@ -222,30 +219,6 @@ const colorizeMask = (base64Mask: string, color: string): Promise<string> => {
                     </TabsContent>
                     
                     <TabsContent value="segmented" className="mt-4">
-<<<<<<< HEAD
-                      <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden relative">
-                        <img 
-                          src={preview} 
-                          alt="Segmented" 
-                          className="w-full h-full object-contain"
-                        />
-                        {result && result.segments && result.segments.map((segment, index) => (
-                          <div
-                            key={index}
-                            className={`absolute inset-0 cursor-pointer transition-opacity ${
-                              selectedSegment === index ? 'opacity-70' : 'opacity-30 hover:opacity-50'
-                            } ${getSegmentColor(index)}`}
-                            onClick={() => setSelectedSegment(selectedSegment === index ? null : index)}
-                            style={{
-                              clipPath: segment.mask || 'none'
-                            }}
-                          >
-                            <div className="absolute top-2 left-2">
-                              <Badge variant="secondary" className="text-xs bg-gray-900/80 text-white">
-                                {segment.name}
-                              </Badge>
-                            </div>
-=======
                       <div className="relative w-full bg-gray-700 rounded-lg overflow-hidden">
                         {/* Ảnh gốc */}
                         <img
@@ -285,34 +258,12 @@ const colorizeMask = (base64Mask: string, color: string): Promise<string> => {
                             }}
                           >
                             {segment.name}
->>>>>>> feature/segment
                           </div>
                         ))}
                       </div>
                     </TabsContent>
                     
                     <TabsContent value="overlay" className="mt-4">
-<<<<<<< HEAD
-                      <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden relative">
-                        <img 
-                          src={preview} 
-                          alt="Overlay" 
-                          className="w-full h-full object-contain opacity-60"
-                        />
-                        {result && result.segments && result.segments.map((segment, index) => (
-                          <div
-                            key={index}
-                            className={`absolute inset-0 border-2 cursor-pointer transition-all ${
-                              selectedSegment === index ? 'opacity-80' : 'opacity-40 hover:opacity-60'
-                            } ${getSegmentColor(index)}`}
-                            onClick={() => setSelectedSegment(selectedSegment === index ? null : index)}
-                          >
-                            <div className="absolute top-2 left-2">
-                              <Badge variant="secondary" className="text-xs bg-gray-900/80 text-white">
-                                {segment.name} ({Math.round(segment.confidence * 100)}%)
-                              </Badge>
-                            </div>
-=======
                       <div className="relative bg-gray-700 rounded-lg overflow-hidden">
                         {/* Ảnh gốc mờ nền */}
                         <img 
@@ -353,15 +304,11 @@ const colorizeMask = (base64Mask: string, color: string): Promise<string> => {
                             }}
                           >
                             {segment.name} ({Math.round(segment.confidence * 100)}%)
->>>>>>> feature/segment
                           </div>
                         ))}
                       </div>
                     </TabsContent>
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/segment
                   </Tabs>
 
                   {result && result.segments && result.segments.length > 0 && (
