@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FastAPI server launcher for AI Showcase Platform
+FastAPI server launcher for AI Portfolio Platform
 """
 
 import sys

@@ -48,7 +48,6 @@ export default function DetectPage() {
 
   const renderBoundingBoxes = () => {
     if (!result || !result.objects || result.objects.length === 0) return null;
-
     return (
       <div className="absolute inset-0">
         {result.objects.map((obj, index) => {
@@ -317,7 +316,7 @@ export default function DetectPage() {
                         {job.result?.objects && job.result.objects.length > 0 && (
                           <div className="mt-2">
                             <p className="text-xs text-gray-500">
-                              Found: {[...new Set(job.result.objects.map(obj => obj.name))].join(', ')}
+                              Found: {[...new Set(job.result.objects.map((obj: { name: string }) => obj.name))].join(', ')}
                             </p>
                           </div>
                         )}

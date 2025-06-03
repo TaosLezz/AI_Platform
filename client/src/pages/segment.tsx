@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
 import { FileUpload } from '@/components/ui/file-upload';
 import { Button } from '@/components/ui/button';
@@ -425,7 +425,7 @@ export default function SegmentPage() {
                         {job.result?.segments && job.result.segments.length > 0 && (
                           <div className="mt-2">
                             <p className="text-xs text-gray-500">
-                              Segments: {job.result.segments.map(s => s.name).join(', ')}
+                              Segments: {job.result.segments.map((s: {name: string }) => s.name).join(', ')}
                             </p>
                           </div>
                         )}

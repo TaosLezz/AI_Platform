@@ -3,7 +3,7 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     # API Configuration
-    app_name: str = "AI Showcase Platform"
+    app_name: str = "AI Portfolio Platform"
     app_version: str = "2.0.0"
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
     

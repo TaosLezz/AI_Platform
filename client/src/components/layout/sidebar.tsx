@@ -46,7 +46,7 @@ export function Sidebar() {
               <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">AI Showcase</h1>
+              <h1 className="text-xl font-bold text-white">AI Portfolio</h1>
               <p className="text-gray-400 text-sm">Platform v2.0</p>
             </div>
           </div>

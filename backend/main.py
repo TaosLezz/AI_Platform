@@ -9,6 +9,8 @@ import base64
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 import json
+from PIL import Image
+import io
 
 from models.schemas import (
     ImageGenerationRequest, 
@@ -35,8 +37,8 @@ import traceback
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="AI Showcase Platform API",
-    description="A comprehensive AI showcase platform with authentication and multiple AI services",
+    title="AI Portfolio Platform API",
+    description="A comprehensive AI Portfolio platform with authentication and multiple AI services",
     version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -74,7 +76,7 @@ from services.rate_limiter import RateLimitService
 @app.on_event("startup")
 async def startup_event():
     """Initialize services on startup"""
-    print("🚀 AI Showcase Platform API Starting...")
+    print("🚀 AI Portfolio Platform API Starting...")
     print("📝 API Documentation available at: /docs")
     print("🔬 ReDoc Documentation available at: /redoc")
 
@@ -82,7 +84,7 @@ async def startup_event():
 async def root():
     """Root endpoint with API information"""
     return {
-        "message": "AI Showcase Platform API",
+        "message": "AI Portfolio Platform API",
         "version": "2.0.0",
         "docs": "/docs",
         "redoc": "/redoc",
@@ -127,7 +129,6 @@ async def generate_image(request: ImageGenerationRequest):
             request.prompt, 
             request.parameters.dict() if request.parameters else {}
         )
-        print("resultzz", result)
         
         # Update job with result
         await storage.update_ai_job(job["id"], {
@@ -138,7 +139,7 @@ async def generate_image(request: ImageGenerationRequest):
         if result["success"]:
             return ImageGenerationResponse(
                 job_id=job["id"],
-                url=result["data"]["url"],
+                url=result["data"]["url"][0].url,
                 prompt=result["data"]["prompt"],
                 processing_time=result["processing_time"]
             )
@@ -146,6 +147,7 @@ async def generate_image(request: ImageGenerationRequest):
             raise HTTPException(status_code=500, detail=result["error"])
             
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 # Image Classification Endpoints
@@ -184,12 +186,17 @@ async def classify_image(
         if result["success"]:
             print("yesss")
             data = result["data"]
+            top_result = data[0]
+            alternatives = [
+            {"label": item["label"], "score": item["score"]}
+            for item in data[1:]
+        ]
             return ClassificationResponse.model_validate({
                 "job_id":job["id"],
-                "class":data["class"],
-                "confidence":data["confidence"],
-                "description":data["description"],
-                "alternatives":data.get("alternatives", []),
+                "class":top_result["label"],
+                "confidence":top_result["score"],
+                "description":f"The image is classified as '{top_result['label']}' with {top_result['score']*100:.2f}% confidence.",
+                "alternatives":alternatives,
                 "processing_time":result["processing_time"]
             })
         else:
@@ -204,7 +211,7 @@ async def classify_image(
 @app.post("/api/v1/detect", response_model=DetectionResponse)
 async def detect_objects(
     image: UploadFile = File(...),
-    use_hugging_face: bool = Form(False)
+    use_hugging_face: bool = Form(False, alias="useHuggingFace")
 ):
     """Detect and locate objects in images with bounding boxes"""
     try:
@@ -214,6 +221,8 @@ async def detect_objects(
 
         # Read and encode image
         image_data = await image.read()
+        pil_image = Image.open(io.BytesIO(image_data))
+        img_width, img_height = pil_image.size
         base64_image = base64.b64encode(image_data).decode('utf-8')
 
         # Create job record
@@ -223,33 +232,58 @@ async def detect_objects(
             "parameters": {"use_hugging_face": use_hugging_face},
             "status": "processing"
         })
-
         # Process the request
         result = await ai_service.detect_objects(base64_image, use_hugging_face)
         
+        print("result detection", result)
         # Update job with result
         await storage.update_ai_job(job["id"], {
             "status": "completed" if result["success"] else "failed",
             "result": result["data"] if result["success"] else {"error": result["error"]}
         })
+    
+        raw_objects = result["data"]  # list dicts có label, score, box
+
+        mapped_objects = []
+        for obj in raw_objects:
+            xmin = obj["box"]["xmin"]
+            ymin = obj["box"]["ymin"]
+            xmax = obj["box"]["xmax"]
+            ymax = obj["box"]["ymax"]
+
+            bbox_pct = [
+            xmin / img_width * 100,  # left
+            ymin / img_height * 100, # top
+            (xmax - xmin) / img_width * 100,  # width
+            (ymax - ymin) / img_height * 100, # height
+        ]
+            
+            mapped_objects.append({
+                "name": obj["label"],
+                "confidence": obj["score"],
+                "bbox": bbox_pct,
+            })
+        print("mapped_objects", mapped_objects)
 
         if result["success"]:
             return DetectionResponse(
                 job_id=job["id"],
-                objects=result["data"]["objects"],
+                objects=mapped_objects,
                 processing_time=result["processing_time"]
             )
         else:
             raise HTTPException(status_code=500, detail=result["error"])
             
     except Exception as e:
+        print("Exception occurred:", e)
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 # Image Segmentation Endpoints
 @app.post("/api/v1/segment", response_model=SegmentationResponse)
 async def segment_image(
     image: UploadFile = File(...),
-    use_hugging_face: bool = Form(False)
+    use_hugging_face: bool = Form(False, alias="useHuggingFace")
 ):
     """Perform pixel-level image segmentation and masking"""
     try:
@@ -279,15 +313,23 @@ async def segment_image(
         })
 
         if result["success"]:
+            segments = []
+            for seg in result["data"]:
+                segments.append({
+                    "name": seg["label"],
+                    "confidence": seg["score"],
+                    "mask": seg["mask"]
+                })
             return SegmentationResponse(
                 job_id=job["id"],
-                segments=result["data"]["segments"],
+                segments=segments,
                 processing_time=result["processing_time"]
             )
         else:
             raise HTTPException(status_code=500, detail=result["error"])
             
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 # Chat Endpoints

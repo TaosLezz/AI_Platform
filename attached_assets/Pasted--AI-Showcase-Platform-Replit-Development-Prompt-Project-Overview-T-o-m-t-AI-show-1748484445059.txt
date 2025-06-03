@@ -1,7 +1,7 @@
-# 🚀 AI Showcase Platform - Replit Development Prompt
+# 🚀 AI Portfolio Platform - Replit Development Prompt
 
 ## 📋 **Project Overview**
-Tạo một AI showcase platform hoàn chỉnh với multiple AI services, modern web interface, và production-ready architecture sử dụng Replit environment.
+Tạo một AI Portfolio platform hoàn chỉnh với multiple AI services, modern web interface, và production-ready architecture sử dụng Replit environment.
 
 ## 🎯 **Core Requirements**
 

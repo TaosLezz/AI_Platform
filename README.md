@@ -1,4 +1,4 @@
-# 🚀 AI Showcase Platform - Enterprise Edition
+# 🚀 AI Portfolio Platform - Enterprise Edition
 
 A comprehensive enterprise-grade AI platform with advanced MLOps capabilities, supporting multiple AI models, custom model management, and real-time analytics.
 

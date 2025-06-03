@@ -212,7 +212,10 @@ export default function Dashboard() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-white">
-                          {job.serviceType.charAt(0).toUpperCase() + job.serviceType.slice(1)}
+                          {/* {job.serviceType.charAt(0).toUpperCase() + job.serviceType.slice(1)} */}
+                          {job?.serviceType
+                            ? job.serviceType.charAt(0).toUpperCase() + job.serviceType.slice(1)
+                            : "No Service Type"}
                         </p>
                         <p className="text-xs text-gray-400 truncate">
                           {job.prompt || 'Processing...'}

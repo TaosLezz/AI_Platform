@@ -45,6 +45,7 @@ export function ResultCard({ job, className, featured }: ResultCardProps) {
   };
 
   const formatTimeAgo = (date: Date) => {
+    if (!date || !(date instanceof Date) || isNaN(date.getTime())) return "Unknown time";
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
